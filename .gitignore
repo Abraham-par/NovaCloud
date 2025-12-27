@@ -1,0 +1,11 @@
+# Logs
+logs/
+*.log
+
+# Database dumps
+*.sql
+
+# XAMPP specific
+.htaccess
+# User uploaded files
+upload/

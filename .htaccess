@@ -1,0 +1,32 @@
+# Custom error pages for NovaCloudV2
+# Place this file in c:/xampp/htdocs/myproject/NovaCloudV2/.htaccess
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect direct requests for .php files to extensionless URL (canonical)
+    # Only perform this external redirect for safe GET requests so POST bodies are not lost.
+    RewriteCond %{REQUEST_METHOD} GET
+    RewriteCond %{THE_REQUEST} \s/([^\s?]+)\.php[\s?] [NC]
+    RewriteRule ^ /%1 [R=301,L]
+
+    # Internally rewrite extensionless requests to existing .php files
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.*)$ $1.php [L]
+
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
+
+# ErrorDocument paths must be absolute from the webroot
+ErrorDocument 400 /myproject/NovaCloudV2/errors/500.php
+ErrorDocument 401 /myproject/NovaCloudV2/errors/403.php
+ErrorDocument 403 /myproject/NovaCloudV2/errors/403.php
+ErrorDocument 404 /myproject/NovaCloudV2/errors/404.php
+ErrorDocument 500 /myproject/NovaCloudV2/errors/500.php
+
+# Fallback to index for missing files (optional)
+#FallbackResource /myproject/NovaCloudV2/index.php
